@@ -19,9 +19,10 @@ import sys
 from pathlib import Path
 
 # 全局配置目录
-CFG_DIR = Path.home() / ".cf_dns_manager"
-CFG_FILE = CFG_DIR / "config.json"
+CFG_DIR = Path.home() / ".cf_dns_manager"  # 配置目录路径（所有配置和日志存储在此）
+CFG_FILE = CFG_DIR / "config.json"         # 配置文件路径
 LOG_FILE = CFG_DIR / "cf_dns_manager.log"  # 日志文件路径
+
 # 设置日志
 def setup_logger():
     """配置日志系统"""
@@ -451,3 +452,4 @@ if __name__ == "__main__":
             proxied
         )
         sys.exit(0 if success else 1)
+
