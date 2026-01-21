@@ -8,8 +8,8 @@
 4. 同步所有记录到DDNS记录IP
 5. 支持主域名解析 (@)
 6. 支持自定义TTL值（包括 "auto"）
+7. 修复了Windows上的日志文件创建问题
 """
-
 import argparse
 import json
 import logging
@@ -17,15 +17,17 @@ import os
 import requests
 import sys
 from pathlib import Path
-
+from datetime import datetime
 # 全局配置目录
-CFG_DIR = Path.home() / ".cf_dns_manager"  # 配置目录路径（所有配置和日志存储在此）
-CFG_FILE = CFG_DIR / "config.json"         # 配置文件路径
+CFG_DIR = Path.home() / ".cf_dns_manager"
+CFG_FILE = CFG_DIR / "config.json"
 LOG_FILE = CFG_DIR / "cf_dns_manager.log"  # 日志文件路径
-
 # 设置日志
 def setup_logger():
     """配置日志系统"""
+    # 确保配置目录存在
+    CFG_DIR.mkdir(parents=True, exist_ok=True)
+    
     logger = logging.getLogger("CF_DNS_Manager")
     logger.setLevel(logging.INFO)
     
@@ -57,6 +59,7 @@ logger = setup_logger()
 def load_config():
     """加载配置文件"""
     CFG_DIR.mkdir(parents=True, exist_ok=True)
+    logger.info(f"配置目录: {CFG_DIR}")
   
     if CFG_FILE.exists():
         try:
@@ -79,6 +82,7 @@ def load_config():
         except Exception as e:
             logger.error(f"配置文件损坏: {e}")
             logger.exception("配置文件解析错误详细信息:")
+            sys.exit(1)
   
     
     # 创建默认配置
@@ -452,4 +456,3 @@ if __name__ == "__main__":
             proxied
         )
         sys.exit(0 if success else 1)
-
