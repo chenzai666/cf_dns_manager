@@ -1,4 +1,4 @@
-# cloudflare_dns_sync
+# cf_dns_manager
 
 增强版 Cloudflare DNS 管理器 (支持主域名解析和TTL自定义)
 功能：
