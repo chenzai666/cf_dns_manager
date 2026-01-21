@@ -8,7 +8,7 @@
 4. 同步所有记录到DDNS记录IP
 5. 支持主域名解析 (@)
 6. 支持自定义TTL值（包括 "auto"）
-7. 修复了Windows上的日志文件创建问题
+7. 修复了日志文件创建问题
 """
 import argparse
 import json
